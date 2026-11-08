@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Crypter</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', Courier, monospace;
+            background: radial-gradient(circle, black, 30%, rgb(26, 0, 0) 90%);
+            min-height: 100vh;
+            max-height: 50%;
+            overflow: hidden;
+        }
+
+        header {
+            margin-left: 15px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 90%;
+        }
+
+        footer {
+            padding: 20px;
+        }
+
+        .card, button {
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 10px red;
+            border-radius: 10px;
+        }
+
+        .card {
+            padding: 15px;
+            background-color: rgb(19, 0, 0);
+            border: 2px solid red;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px red;
+        }
+
+        button {
+            min-width: 30vh;
+            font-size: 1rem;
+            color: white;
+            background-color: red;
+            font-weight: bold;
+            padding: 12px 24px;
+            margin: 5px;
+            text-shadow: 0 0 10px white;
+            border: none;
+        }
+
+        button:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px red;
+            text-shadow: 0 0 15px white;
+        }
+
+        h1, h2, p, label {
+            color: red;
+        }
+
+        h1, h2, p {
+            text-shadow: 0 0 10px red, 0 0 1px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        h2 {
+            font-size: 30px;
+        }
+    </style>
+    <script>
+        function select() {
+            selectFile().then(filepath => {
+                document.getElementById("getFile").innerHTML = filepath;
+            });
+        }
+
+        function crypt() {
+            cryptFile();
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>ONYX-CRYPTER</h1>
+        <p>Make your executables unrecognizable from before.</p>
+    </header>
+    <main>
+        <div class="card">
+            <h2>Choose a File</h2>
+            <button onclick="select()" id="choose" class="btn">CHOOSE FILE</button>
+            <label for="choose" id="getFile" class="file-label">No file chosen</label>
+        </div>
+        <div class="card">
+            <h2>Crypt File</h2>
+            <button onclick="crypt()" id="crypter" class="btn">CRYPT</button>
+            <label for="crypter" id="state" class="status-label"></label>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 File Crypter. All rights reserved.</p>
+    </footer>
+</body>
+</html>
